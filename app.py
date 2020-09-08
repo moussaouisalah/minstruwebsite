@@ -3,8 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from functions import gettitlefromyoutube, mainfunction
 from threading import Thread
-import os
-import shutil
+from os import path
+from shutil import rmtree
 
 
 app = Flask(__name__, template_folder='templates')
@@ -163,7 +163,7 @@ def delete(song_id):
     if count == 0:
         db.engine.execute("DELETE FROM song WHERE id={}".format(song_id))
         try:
-            shutil.rmtree(os.path.join(app.root_path, 'songs', str(song_id)))
+            rmtree(path.join(app.root_path, 'songs', str(song_id)))
         except:
             pass
     db.session.commit()

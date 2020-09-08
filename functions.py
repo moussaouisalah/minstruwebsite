@@ -1,7 +1,7 @@
 import youtube_dl
 from spleeter.separator import Separator
-import os
-import shutil
+from os import path, remove
+from shutil import rmtree
 
 
 def downloadvideo(song_id, song_url):
@@ -30,11 +30,11 @@ def mainfunction(song_id, song_url, db, app):
     downloadvideo(song_id, song_url)
     separator = Separator('spleeter:2stems')
     separator.separate_to_file('./temporary/{}.mp3'.format(song_id), './songs')
-    os.remove(os.path.join('temporary', '{}.mp3'.format(song_id)))
+    remove(path.join('temporary', '{}.mp3'.format(song_id)))
     count = db.engine.execute("SELECT COUNT() FROM song WHERE url='{}'".format(song_url)).first()[0]
     if count == 0:
         try:
-            shutil.rmtree(os.path.join(app.root_path, 'songs', str(song_id)))
+            rmtree(path.join(app.root_path, 'songs', str(song_id)))
         except:
             pass
     else:

@@ -4,3 +4,4 @@ python-dev
 python-numpy
 python-setuptools
 libsndfile-dev
+ffmpeg

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    {% block head %} {% endblock %}
+</head>
+<body class="bg-gray-100 box-border">
+    <div class="bg-white shadow-md p-5 flex flex-col items-start md:items-center relative">
+        <h1 class="font-bold text-3xl">Minstru</h1>
+        <p>extract the instrumental of any song.</p>
+        <div class="absolute right-0 top-0 h-full p-10 flex items-center">
+
+            {% block nav %} {% endblock %}
+
+        </div>
+    </div>
+
+    {% block body %} {% endblock %}
+
+</body>
+</html>

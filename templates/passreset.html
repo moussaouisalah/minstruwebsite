@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+<title>Reset Password | Minstru</title>
+{% endblock %}
+
+
+{% block nav %}
+    <ul>
+        <li class="inline-block mr-5"><a href="/login">Login</a></li>
+        <li class="inline-block"><a href="/register">Register</a></li>
+    </ul>
+{% endblock %}
+
+
+{% block body %}
+    <div class="p-10 m-auto flex flex-col justify-start items-center">
+        <h1 class="font-bold text-3xl mb-2">Reset Password</h1>
+        {% if message != None %}
+            {% if error %}
+                <p class="text-red-600">{{ message }}</p>
+            {% else %}
+                <p class="text-green-600">{{ message }}</p>
+            {% endif %}
+        {% endif %}
+        <form class="container w-full md:w-8/12 lg:w-1/2 flex flex-col justify-start items-center" method="post">
+            <input class="bg-white focus:outline-none focus:shadow-outline border border-gray-300 py-2 px-4
+                    md:inline-block w-9/12 appearance-none leading-normal mr-0 block rounded-lg mb-2 lg:w-1/2"
+                   type="email"
+                   placeholder="Email"
+            >
+
+            <button
+                    class="md:w-2/12 bg-red-700 py-2 ml-0 text-white font-bold w-5/12 rounded-lg mb-2"
+            >
+                Reset
+            </button>
+        </form>
+    </div>
+{% endblock %}

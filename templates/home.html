@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" defer></script>
+<script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+<title>Home | Minstru</title>
+{% endblock %}
+
+{% block nav %}
+
+    {% if loggedIn %}
+        <ul>
+            <li class="inline-block mr-5">{{ user.username }}</li>
+            <li class="inline-block"><a href="/logout">Logout</a></li>
+        </ul>
+    {% else %}
+        <ul>
+            <li class="inline-block mr-5"><a href="/login">Login</a></li>
+            <li class="inline-block"><a href="/register">Register</a></li>
+        </ul>
+    {% endif%}
+
+{% endblock %}
+
+{% block body %}
+    {% if loggedIn %}
+        <div class="p-10 m-auto flex flex-col justify-start items-center">
+        <h1 class="font-bold text-3xl mb-2">New Song</h1>
+        <form class="container w-full md:w-8/12 lg:w-1/2 flex flex-col justify-start items-center md:block" method="post">
+            <input class="bg-white focus:outline-none focus:shadow-outline border border-gray-300 md:rounded-none md:rounded-l-lg py-2 px-4
+                md:inline-block w-9/12 appearance-none leading-normal mr-0 block rounded-lg mb-2 md:mb-0"
+                   type="url"
+                   name="url"
+                   placeholder="https://www.youtube.com/watch?v=Vhh_GeBPOhs"
+            >
+            <button class="md:w-2/12 bg-red-700 md:rounded-none md:rounded-r-lg py-2 ml-0 text-white font-bold w-5/12
+            rounded-lg hover:bg-red-800 transition transition-all duration-100">Extract</button>
+        </form>
+        </div>
+        <div class="p-10 m-auto flex flex-col justify-start items-center">
+            <h1 class="font-bold text-3xl mb-2">My songs</h1>
+            <div class="container m-auto flex flex-wrap justify-evenly">
+
+                {% for song in songs %}
+                    <div class="w-full rounded overflow-hidden shadow-lg bg-white m-2 px-5 py-2 flex flex-row justify-between items-center">
+                        <div class="m2 break-all font-light">
+                            <h1 class="font-bold text-xl">{{ song.title }}</h1>
+                            <p>{{ song.url }}</p>
+                        </div>
+                        <div class="flex flex-row justify-evenly items-center" id="song{{ song.id }}">
+                            {% if song.status == 'ready' %}
+                                <a class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold
+                                text-gray-700 m-2 transform hover:scale-110 hover:bg-gray-400 transition transition-all duration-100"
+                                   href="/download/{{ song.id }}"
+                                >
+                                    <img src="{{ url_for('static', filename='/images/download.svg') }}" width="20">
+                                </a>
+                            {% else %}
+                                <p class="m-2 downloading">Downloading...</p>
+                            {% endif %}
+                                <a href="/delete/{{ song.id }}" class="text-red-600 font-bold hover:bg-red-600 hover:text-white rounded-full px-2 py-0 transition transition-all duration-100">X</a>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    {% else %}
+        <div class="p-10 m-auto flex flex-col justify-start items-center">
+            <h1 class="font-bold text-3xl mb-2">New Song</h1>
+            <form class="container w-full md:w-8/12 lg:w-1/2 flex flex-col justify-start items-center md:block">
+                <input class="bg-gray-400 focus:outline-none focus:shadow-outline border border-gray-300 md:rounded-none md:rounded-l-lg py-2 px-4
+                        md:inline-block w-9/12 appearance-none leading-normal mr-0 block rounded-lg mb-2 md:mb-0"
+                       type="url"
+                       disabled
+                       placeholder="https://www.youtube.com/watch?v=Vhh_GeBPOhs"
+                >
+                <button
+                        class="md:w-2/12 bg-red-300 md:rounded-none md:rounded-r-lg py-2 ml-0 text-white font-bold w-5/12 rounded-lg"
+                        disabled
+                >
+                    Extract
+                </button>
+                <p class="mt-2">Please <a href="/login" class="text-orange-700">Login</a> or <a href="/register" class="text-orange-700">Register</a> to get started.</p>
+            </form>
+        </div>
+    {% endif%}
+
+{% endblock %}

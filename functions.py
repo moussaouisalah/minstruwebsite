@@ -31,6 +31,7 @@ def mainfunction(song_id, song_url, db, app):
     separator = Separator('spleeter:2stems')
     separator.separate_to_file('./temporary/{}.mp3'.format(song_id), './songs')
     remove(path.join('temporary', '{}.mp3'.format(song_id)))
+    remove(path.join('songs', '{}'.format(song_id), 'vocals.wav'))
     count = db.engine.execute("SELECT COUNT() FROM song WHERE url='{}'".format(song_url)).first()[0]
     if count == 0:
         try:
